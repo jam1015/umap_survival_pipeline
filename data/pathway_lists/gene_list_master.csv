@@ -1,0 +1,25 @@
+pathway_names,pathway_files
+Cell Cycle,cell_cycle.csv
+Cholesterol Biosynthesis,chol.csv
+Fatty Acid Beta-Oxidation,fabo.csv
+Glycolysis,glycolysis.csv
+Hippo,hippo.csv
+Mitochondrial Ribosomal Proteins,mrp.csv
+Mitochondrial and Cytoplasmic Ribosomal Proteins,mito_cyto_rp.csv
+Myc,myc.csv
+Notch,notch.csv
+Pentose Phosphate,pent_phos.csv
+PI3-Kinase,pi3k.csv
+Purine Biosynthesis,purine.csv
+Pyrimidine Biosynthesis,pyrimidine.csv
+Cytoplasmic Ribosomal Proteins,rp.csv
+TCA Cycle,tca.csv
+TGF-Beta,tgfb.csv
+Tp53,tp53.csv
+Wnt,wnt.csv
+IFN Gamma,ifng.csv
+NF-kB TNF,nfkb_tnf.csv
+T-Cell and Checkpoint,tcell_checkpoint.csv
+Partitioned P-Values,ppv.csv
+Mito RPs and Brain-Ovary Separators,rp_brain_ovary.csv
+Merged Original,merged_12_rp.csv
