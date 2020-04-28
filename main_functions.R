@@ -54,38 +54,42 @@ initial_mutates <- function(dc_in){
 filter_metadata <- function(dc_in){
   
   #loading ancestor/descendant tables, calling them "filtered" in advance
-  ancestor_table_filtered <- dc_in$ancestor_table      
-  descendant_table_filtered <- dc_in$descendant_table
+  ancestor_table <- dc_in$ancestor_table      
+  descendant_table<- dc_in$descendant_table
   
   #loading all the other metadata
-  metadata_filtered <- dc_in$all_metadata %>% unique()
-  metadata_filtered <- dplyr::filter(dc_in$all_metadata,!is.na("disease"))
+  metadata <- dc_in$all_metadata %>% unique()
+  metadata <- dplyr::filter(dc_in$all_metadata,!is.na("disease"))
   
   if(tcga_mets){
     #filtering to only the data with primary metastasis site in tcga
-    metadata_filtered <- metadata_filtered %>% filter(metadata_filtered$sample %in% dc_in$tcga_met_data$sample)
+    metadata <- metadata %>% filter(metadata$sample %in% dc_in$tcga_met_data$sample)
   }
   
   #these next three if statements filter the datasets (metadata, ancestor, descendant) according to values in control panel
   
   if(filter_dataset){
     
-    metadata_filtered <- dplyr::filter(metadata_filtered,dataset %in% dataset_filt)  
-    ancestor_table_filtered <- dplyr::filter(ancestor_table_filtered,dataset %in% dataset_filt) 
-    descendant_table_filtered <- dplyr::filter(descendant_table_filtered,dataset %in% dataset_filt) 
+    metadata <- dplyr::filter(metadata,dataset %in% dataset_filt)  
+    ancestor_table <- dplyr::filter(ancestor_table,dataset %in% dataset_filt) 
+    descendant_table <- dplyr::filter(descendant_table,dataset %in% dataset_filt) 
   }
   if(filter_disease){ 
-    metadata_filtered <- dplyr::filter(metadata_filtered,disease %in% disease_filt)
-    ancestor_table_filtered <- dplyr::filter(ancestor_table_filtered,disease %in% disease_filt)
-    descendant_table_filtered <- dplyr::filter(descendant_table_filtered,disease %in% disease_filt)
+    metadata <- dplyr::filter(metadata,disease %in% disease_filt)
+    ancestor_table <- dplyr::filter(ancestor_table,disease %in% disease_filt)
+    descendant_table <- dplyr::filter(descendant_table,disease %in% disease_filt)
     
   }
   if(filter_sample_type){ 
-    metadata_filtered <- dplyr::filter(metadata_filtered,sample_type %in% sample_type_filt)
-    ancestor_table_filtered <- dplyr::filter(ancestor_table_filtered,sample_type %in% sample_type_filt)
-    descendant_table_filtered <- dplyr::filter(descendant_table_filtered,sample_type %in% sample_type_filt)
+    metadata <- dplyr::filter(metadata,sample_type %in% sample_type_filt)
+    ancestor_table <- dplyr::filter(ancestor_table,sample_type %in% sample_type_filt)
+    descendant_table <- dplyr::filter(descendant_table,sample_type %in% sample_type_filt)
     
   }
+  
+  metadata_filtered <- metadata
+  ancestor_table_filtered <- ancestor_table
+  descendant_table_filtered <- descendant_table
   
   dc_out <- dc_in
   
@@ -225,7 +229,7 @@ merge_gen_meta <- function(dc_in){
   dc_out <- dc_in
   dc_out$expression_indices <- expression_indices
   dc_out$meta_fpkm_joined <- meta_fpkm_joined
-  browser()
+ 
   
   return(dc_out)  
 }
@@ -361,9 +365,7 @@ dim_reduce <- function(dc_in){
     
   }
   
-  browser()
   dc_out <- dc_in
-  
   dc_out$jitter_plot <- jitter_plot
   dc_out$embedding <- embedding
   dc_out$joined_dr <- joined_dr
@@ -458,10 +460,10 @@ cluster <- function(dc_in){
 }
 
 
-add_relation_points <- function(dc_in){  #makes ancestor and descendant tables for any input points given ordering of normal tissue, primary tumor, met
+add_relation_points <- function(dc_in){  #makes ancestor and descendant tables for any input points given ordering of normal tissue, primary tumor, met; adds the actual points, whereas we've already computed which samples the ancestors and descendants are. 
   
   dc_out <- dc_in
-  
+
   #these two functions make ancestor and descendant tables
   dc_out$ancestor_table_filtered   <- add_ancestor_points(dc_in$joined_dr,dc_in$ancestor_table_filtered)     %>% dplyr::filter(!( is.na(X1)    |is.na(X2)| is.na( X1_ancestor)| is.na(X2_ancestor)))
   dc_out$descendant_table_filtered <- add_descendant_points(dc_in$joined_dr,dc_in$descendant_table_filtered) %>% dplyr::filter(!( is.na(X1)    |is.na(X2)| is.na( X1_descendant)| is.na(X2_descendant)))

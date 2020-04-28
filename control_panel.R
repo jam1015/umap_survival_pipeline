@@ -50,13 +50,13 @@ library(ggrepel)
 #options to be changed by shiny user
 load_local_gen <- TRUE  #should we load gen data from a local array or should we to tcgabiolinks
 
-three_dee_output <- FALSE  #should we do 3d output
+three_dee_output <- TRUE #should we do 3d output
 plot_black_rings <- FALSE #sholud we plot black rings, otherwise mets ar holoow points
 output_dims <- ifelse(three_dee_output, 3 , 2)
 #how should the data be normalized? 
 whiten <- FALSE   #whitening removes correlation from the dataset; only for tSNE
 standardize <-  TRUE   #should we normalize the data to 1
-standardize_cols <- FALSE
+standardize_cols <- FALSE  #normalizes data to 1 column-wise
 spherize <- TRUE     #should we center and project onto unit hypersphere
 filter_noise <- FALSE           #should we get rid of noise from umap after clustering (group zero)
 survival_zero <- FALSE         #should we include the group zero on the survival plot         
